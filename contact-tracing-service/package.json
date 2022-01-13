@@ -4,7 +4,8 @@
   "description": "the rest api for the contact tracing stystem",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Sebastian Kargl",
   "license": "ISC",
