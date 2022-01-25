@@ -1,6 +1,6 @@
 "use strict";
-var rethinkdb = require('rethinkdb');
-var async = require('async');
+const rethinkdb = require('rethinkdb');
+let async = require('async');
 class db {
     connectToDb(callback) {
         rethinkdb.connect({
@@ -37,7 +37,7 @@ class db {
         });
     }
 
-    findUser(emailAddress,callback) {
+    findUser(username,callback) {
         let self = this;
         async.waterfall([
             function(callback) {
@@ -49,7 +49,7 @@ class db {
                 });
             },
             function(connection,callback) {
-                rethinkdb.table('login').filter({"email" : emailAddress}).run(connection,function(err,cursor) {
+                rethinkdb.table('login').filter({"username" : username}).run(connection,function(err,cursor) {
                     connection.close();
                     if(err) {
                         return callback(true,"Error fetching user from database");
@@ -58,7 +58,7 @@ class db {
                         if(err) {
                             return callback(true,"Error reading cursor");
                         }
-                        //Assuming email will be primary key and unique
+                        //Assuming username will be primary key and unique
                         callback(null,result[0]);
                     });
                 });

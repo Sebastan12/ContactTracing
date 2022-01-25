@@ -1,17 +1,24 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../models/db');
-var jwt = require('jsonwebtoken');
+const express = require('express');
+const router = express.Router();
+const db = require('../models/db');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-router.post('/',function(req,res) {
+async function hashPassword(password){
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+}
+
+router.post('/',async (req,res) => {
+    const hashedPassword = await hashPassword(req.body.password);
     //Create new User.
-    var data = {
-        email : req.body.email,
-        password : req.body.password
+    let data = {
+        username : req.body.username,
+        password : hashedPassword
     };
-    var model = new db();
+    let model = new db();
     //Check if user already exists
-    model.findUser(req.body.email,function(error,response) {
+    model.findUser(req.body.username,function(error,response) {
         if (error) {
             return res.json({"error": true, "message": error});
         }
@@ -28,20 +35,21 @@ router.post('/',function(req,res) {
     });
 });
 
-router.post('/login',function(req,res) {
-    var model = new db();
+router.post('/login',async(req,res) => {
+    let model = new db();
+    const hashedPassword = await hashPassword(req.body.password);
     //perform user login
-    model.findUser(req.body.email,function(error,response) {
+    model.findUser(req.body.username,async (error,response) => {
         if(error) {
             return res.json({"error" : true,"message" : error});
         }
         if(!response) {
             return res.json({"error" : true,"message" : "User not found"});
         }
-        if(response.password !== req.body.password) {
+        if(!await bcrypt.compare(req.body.password, response.password)) {
             return res.json({"error" : true,"message" : "Password mismatch"});
         }
-        var token = jwt.sign(response, global.config.secret, {
+        let token = jwt.sign(response, global.config.secret, {
             expiresIn: 1440 // expires in 1 hours
         });
 
