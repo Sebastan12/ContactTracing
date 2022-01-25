@@ -1,9 +1,11 @@
-var express = require('express');
-var app = express();
-var port = 8000;
+const express = require('express');
+const r = require('rethinkdb');
+const routes = require('./routes/routes');
 
-app.get('/', function (req, res) {
-    res.send("Hello");
-});
+const app = express();
+const port = 8000;
 
-app.listen(port);
+app.use(express.json());
+app.use('/api', routes);
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
