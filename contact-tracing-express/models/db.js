@@ -6,7 +6,7 @@ class db {
         rethinkdb.connect({
             host : 'localhost',
             port : 28015,
-            db : 'users'
+            db : 'contacttracing'
         }, function(err,connection) {
             callback(err,connection);
         });
@@ -24,7 +24,7 @@ class db {
                 });
             },
             function(connection,callback) {
-                rethinkdb.table('login').insert(userData).run(connection,function(err,result) {
+                rethinkdb.table('users').insert(userData).run(connection,function(err,result) {
                     connection.close();
                     if(err) {
                         return callback(true,"Error happens while adding new user");
@@ -49,7 +49,38 @@ class db {
                 });
             },
             function(connection,callback) {
-                rethinkdb.table('login').filter({"username" : username}).run(connection,function(err,cursor) {
+                rethinkdb.table('users').filter({"username" : username}).run(connection,function(err,cursor) {
+                    connection.close();
+                    if(err) {
+                        return callback(true,"Error fetching user from database");
+                    }
+                    cursor.toArray(function(err, result) {
+                        if(err) {
+                            return callback(true,"Error reading cursor");
+                        }
+                        //Assuming username will be primary key and unique
+                        callback(null,result[0]);
+                    });
+                });
+            }
+        ],function(err,data) {
+            callback(err === null ? false : true,data);
+        });
+    }
+
+    findUserById(id,callback) {
+        let self = this;
+        async.waterfall([
+            function(callback) {
+                self.connectToDb((err,connection) => {
+                    if(err) {
+                        return callback(true,"Error connecting to database");
+                    }
+                    callback(null,connection);
+                });
+            },
+            function(connection,callback) {
+                rethinkdb.table('users').filter({"id" : id}).run(connection,function(err,cursor) {
                     connection.close();
                     if(err) {
                         return callback(true,"Error fetching user from database");

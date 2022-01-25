@@ -6,6 +6,7 @@ const router = express.Router();
  * First route will handle the static html file delievery.
  * Second route will handle the API calls.
  */
+
 router.get('/',function(req,res) {
     res.json({message : "Hello World"});
 });
