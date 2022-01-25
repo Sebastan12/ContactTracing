@@ -49,14 +49,20 @@ router.post('/login',async(req,res) => {
         if(!await bcrypt.compare(req.body.password, response.password)) {
             return res.json({"error" : true,"message" : "Password mismatch"});
         }
-        let token = jwt.sign(response, global.config.secret, {
+        console.log(response.id);
+        let token = jwt.sign({"id" : response.id}, global.config.secret, {
             expiresIn: 1440 // expires in 1 hours
+        });
+
+        //httponly to prevent cros-site scripting attacks
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            maxAge: 1440
         });
 
         res.json({
             error: false,
-            message: 'Validation successful!',
-            token: token
+            message: 'Validation successful!'
         });
     });
 });

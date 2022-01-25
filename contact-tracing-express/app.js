@@ -2,7 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 global.config = require('./config');
+const cors = require('cors');
 
+
+app.use(cors({
+    credential: true,
+    origin: ['http://localhost:4200']
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('./controllers')); //routes which don't require token authentication should be placed here
