@@ -1,34 +1,6 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Contact Tracing</a>
-    <div>
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Register</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
+<app-navigation></app-navigation>
 <main class="form-signin">
-  <form>
-
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-    <div class="form-floating">
-      <input type="email" class="form-control" id="inputUsername" placeholder="Username">
-      <label for="inputUsername">Username</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-      <label for="inputPassword">Password</label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-  </form>
+  <router-outlet></router-outlet>
 </main>
 
-<router-outlet></router-outlet>
+
