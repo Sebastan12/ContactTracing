@@ -9,6 +9,9 @@ import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import { AddEntryComponent } from './add-entry/add-entry.component';
+import { EntryListComponent } from './entry-list/entry-list.component';
+import { SingleEntryComponent } from './single-entry/single-entry.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import {HttpClientModule} from "@angular/common/http";
     RegisterComponent,
     LoginComponent,
     HomeComponent,
-    NavigationComponent
+    NavigationComponent,
+    AddEntryComponent,
+    EntryListComponent,
+    SingleEntryComponent
   ],
   imports: [
     BrowserModule,
