@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Emitters} from "../emitters/emitters";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-navigation',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
-
-  constructor() { }
+  authenticated = false;
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+    Emitters.authEmitter.subscribe(
+      (auth:boolean)=>{
+        this.authenticated = auth;
+      }
+    )
+  }
+
+  logout(): void{
+    this.httpClient.post('http://localhost:8000/api/user/logout', {}, {withCredentials: true})
+      .subscribe(()=> this.authenticated = false)
   }
 
 }

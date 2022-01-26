@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Emitters} from "../emitters/emitters";
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,12 @@ export class HomeComponent implements OnInit {
       .subscribe((res:any) => {
         console.log(res);
         this.message = `Hi ${res.username}`;
+        Emitters.authEmitter.emit(true);
       },
           err => {
             console.log(err);
             this.message = "You are not logged in";
+            Emitters.authEmitter.emit(false);
         })
   }
 
