@@ -28,7 +28,7 @@ router.post('/',async (req,res) => {
         //Create new user
         model.addNewUser(data,function(error,response) {
             if(error) {
-                return res.json({"error" : true,message : error})
+                return res.status(500).send({message : error})
             }
             res.send({message : "Added new user"});
         });
@@ -69,8 +69,6 @@ router.get('/',function (req,res) {
             message: 'unauthenticated'
         })
     }
-
-
 
 });
 
