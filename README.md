@@ -3,12 +3,12 @@ A contact tracing app I made for university
 
 **Database Setup**
 1. make sure your docker is running
-2. docker-compuse up -d
+2. docker-compose up -d
 3. go to http://localhost:8080/
-4. create a contacttracing Database
-5. inside the Databse create 2 Tables
-6. users
-7. entries
+4. create a contacttracing database
+5. inside the databse create 2 tables
+6. create "users" table
+7. create "entries" table
 8. Done!
 
 **Starting the APP**
