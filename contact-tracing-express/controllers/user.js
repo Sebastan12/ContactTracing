@@ -20,50 +20,55 @@ router.post('/',async (req,res) => {
     //Check if user already exists
     model.findUser(req.body.username,function(error,response) {
         if (error) {
-            return res.json({"error": true, message: error});
+            return res.status(500).send({ message: error});
         }
         if (response) {
-            return res.json({"error": true, message: "User Already Exists"});
+            return res.status(409).send({message: "User Already Exists"});
         }
         //Create new user
         model.addNewUser(data,function(error,response) {
             if(error) {
                 return res.json({"error" : true,message : error})
             }
-            res.json({"error" : false,message : "Added new user"});
+            res.send({message : "Added new user"});
         });
     });
 });
 
 router.get('/',function (req,res) {
-    const cookie = req.cookies['jwt'];
+    try{
+        const cookie = req.cookies['jwt'];
 
-    if(!cookie){
+        if(!cookie){
+            return res.status(401).send({
+                message: 'unauthenticated'
+            })
+        }
+
+        const claims = jwt.verify(cookie, global.config.secret);
+
+        if(!claims){
+            return res.status(401).send({
+                message: 'unauthenticated'
+            })
+        }
+        let model = new db();
+        model.findUserById(claims.id,async (error,response) => {
+            if(error) {
+                return res.status(500).send({message : error});
+            }
+            if(!response) {
+                return res.status(404).send({message : "User not found"});
+            }
+
+            delete response['password'];
+            res.send(response);
+        });
+    }catch (e){
         return res.status(401).send({
             message: 'unauthenticated'
         })
     }
-
-    const claims = jwt.verify(cookie, global.config.secret);
-
-    if(!claims){
-        return res.status(401).send({
-            message: 'unauthenticated'
-        })
-    }
-    let model = new db();
-    model.findUserById(claims.id,async (error,response) => {
-        if(error) {
-            return res.status(500).send({message : error});
-        }
-        if(!response) {
-            return res.status(404).send({message : "User not found"});
-        }
-
-        delete response['password'];
-        res.send(response);
-    });
-
 
 
 
