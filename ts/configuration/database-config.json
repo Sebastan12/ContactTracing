@@ -1,8 +1,0 @@
-{
-    "databaseName": "webDev2021",
-    "databaseServer": "localhost",
-    "databasePort": 28015,
-    "databaseTables": [
-        "webDevEntries"
-    ]
-}

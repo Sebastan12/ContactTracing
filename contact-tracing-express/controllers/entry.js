@@ -52,21 +52,12 @@ router.get('/:uid',function (req,res) {
         }
 
         try{
+            //let client continue even if not authorized
+            //Just cut down amount of intel he gets
             const cookie = req.cookies['jwt'];
-
-            if(!cookie){
-                return res.status(401).send({
-                    message: 'unauthenticated'
-                })
-            }
 
             const claims = jwt.verify(cookie, global.config.secret);
 
-            if(!claims){
-                return res.status(401).send({
-                    message: 'unauthenticated'
-                })
-            }
             let model = new db();
             model.findUserById(claims.id,async (error,response_user) => {
                 if(error) {
@@ -123,6 +114,7 @@ router.post('/',async (req,res) => {
                 parent_id: response.id,
                 name: req.body.name,
                 address: req.body.address
+                //datetime: new Date().toISOString()
             };
             let model = new db();
             //Check if user already exists

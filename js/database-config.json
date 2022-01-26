@@ -1,7 +1,0 @@
-{
-    "databaseName": "end-project",
-    "databaseTables": [
-        "entries",
-        "users"
-    ]
-}

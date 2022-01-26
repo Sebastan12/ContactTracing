@@ -12,6 +12,15 @@ export class NavigationComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+    this.httpClient.get('http://localhost:8000/api/user', {withCredentials: true})
+      .subscribe((res:any) => {
+          console.log(res);
+          this.authenticated = true;
+        },
+        err => {
+          console.log(err);
+          this.authenticated = false;
+        });
     Emitters.authEmitter.subscribe(
       (auth:boolean)=>{
         this.authenticated = auth;

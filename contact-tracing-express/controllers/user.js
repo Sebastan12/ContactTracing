@@ -86,14 +86,11 @@ router.post('/login',async(req,res) => {
         if(!await bcrypt.compare(req.body.password, response.password)) {
             return res.status(401).send({message : "Wrong Password"});
         }
-        let token = jwt.sign({"id" : response.id}, global.config.secret, {
-            expiresIn: 1440 // expires in 1 hours
-        });
+        let token = jwt.sign({"id" : response.id}, global.config.secret);
 
         //httponly to prevent cros-site scripting attacks
         res.cookie('jwt', token, {
-            httpOnly: true,
-            maxAge: 1440
+            httpOnly: true
         });
 
         res.send({message: 'Validation successful!'});

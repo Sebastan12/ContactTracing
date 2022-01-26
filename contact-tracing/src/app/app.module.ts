@@ -13,6 +13,8 @@ import { AddEntryComponent } from './add-entry/add-entry.component';
 import { EntryListComponent } from './entry-list/entry-list.component';
 import { SingleEntryComponent } from './single-entry/single-entry.component';
 
+import { QRCodeModule } from 'angular2-qrcode';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +31,8 @@ import { SingleEntryComponent } from './single-entry/single-entry.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

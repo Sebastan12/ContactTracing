@@ -1,1 +1,15 @@
-<p>entry-list works!</p>
+<h1>Your Entries</h1>
+<div *ngFor="let entry of entries">
+  <a href="{{'http://localhost:4200/entry/'+ entry['id']}}" target="_blank" style="padding: 3px">
+    <div class=" bg-dark text-white">
+
+      <div class="container" style="padding: 10px">
+            <p>{{entry['id']}}</p>
+            <p>{{entry['name']}}</p>
+            <p>{{entry['address']}}</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+
