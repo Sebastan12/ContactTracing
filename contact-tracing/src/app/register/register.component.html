@@ -5,9 +5,18 @@
     <input formControlName="username" type="email" class="form-control" id="inputUsername" placeholder="Username" required autofocus>
     <label for="inputUsername">Username</label>
   </div>
+  <p *ngIf="username.invalid && username.touched">
+    You need to enter a username! (4-20 characters)
+  </p>
   <div class="form-floating">
     <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
     <label for="inputPassword">Password</label>
   </div>
-  <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+  <p *ngIf="password.invalid && password.touched">
+    You need to enter a strong password! (numbers, letters and at least 8 chars long)
+  </p>
+  <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="form.invalid">Register</button>
+  <p *ngIf="error" style="color: red">
+    {{error}}
+  </p>
 </form>

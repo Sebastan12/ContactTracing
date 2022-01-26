@@ -5,10 +5,19 @@
     <input formControlName="name" type="name" class="form-control" id="inputName" placeholder="Name" required autofocus>
     <label for="inputName">Name</label>
   </div>
+  <p *ngIf="name.invalid && name.touched">
+    You need to enter a name!
+  </p>
   <div class="form-floating">
     <input formControlName="address" type="name" class="form-control" id="inputAddress" placeholder="Address" required>
     <label for="inputAddress">Address</label>
   </div>
-  <button class="w-100 btn btn-lg btn-primary" type="submit">Add Entry</button>
+  <p *ngIf="address.invalid && address.touched">
+    You need to enter an address!
+  </p>
+  <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="form.invalid">Add Entry</button>
+  <p *ngIf="error" style="color: red">
+    {{error}}
+  </p>
 </form>
 

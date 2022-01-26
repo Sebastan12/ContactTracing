@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 
@@ -10,15 +10,28 @@ import {Router} from "@angular/router";
 })
 export class AddEntryComponent implements OnInit {
   form!: FormGroup;
+  error:string = "";
 
   constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private router: Router) {
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      name: '',
-      address: '',
+      name: ['', [
+        Validators.required
+      ]],
+      address: ['', [
+        Validators.required
+      ]],
     })
+  }
+
+  get name(){
+    return this.form.get('name')!
+  }
+
+  get address(){
+    return this.form.get('address')!
   }
 
   submit(): void {
@@ -26,6 +39,9 @@ export class AddEntryComponent implements OnInit {
     this.httpClient.post("http://localhost:8000/api/entry", this.form.getRawValue(), {withCredentials: true})
       .subscribe(res => {
         this.router.navigate(['/'])
-      });
+      },
+        err =>{
+          this.error = err.error.message;
+        });
   }
 }

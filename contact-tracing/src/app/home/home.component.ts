@@ -8,6 +8,7 @@ import {Emitters} from "../emitters/emitters";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  authenticated:boolean = false;
   message:string = "You are not logged in";
   constructor(private httpClient: HttpClient) { }
 
@@ -17,11 +18,13 @@ export class HomeComponent implements OnInit {
         console.log(res);
         this.message = `Hi ${res.username}`;
         Emitters.authEmitter.emit(true);
+        this.authenticated = true;
       },
           err => {
             console.log(err);
             this.message = "You are not logged in";
             Emitters.authEmitter.emit(false);
+            this.authenticated = false;
         })
   }
 

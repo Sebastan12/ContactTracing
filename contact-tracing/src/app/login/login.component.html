@@ -1,13 +1,22 @@
 <form [formGroup]="form" (submit)="submit()">
   <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-  <div class="form-floating">
-    <input formControlName="username" type="email" class="form-control" id="inputUsername" placeholder="Username" required autofocus>
+  <div class="form-floating ">
+    <input formControlName="username" type="email" class="form-control custom-control-input" id="inputUsername" placeholder="Username" required autofocus>
     <label for="inputUsername">Username</label>
+    <p *ngIf="username.invalid && username.touched">
+      You need to enter a username!
+    </p>
   </div>
   <div class="form-floating">
     <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
     <label for="inputPassword">Password</label>
   </div>
-  <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+  <p *ngIf="password.invalid && password.touched">
+    You need to enter a password!
+  </p>
+  <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="form.invalid">Sign in</button>
+  <p *ngIf="error" style="color: red">
+    {{error}}
+  </p>
 </form>
